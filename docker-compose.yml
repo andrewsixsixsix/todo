@@ -1,0 +1,15 @@
+services:
+  app:
+    build: .
+    depends_on:
+      - db
+    env_file: .env.local
+    ports:
+      - "8080:8080"
+
+  db:
+    image: postgres:17.2
+    restart: always
+    env_file: .env.local
+    ports:
+      - "5432:5432"

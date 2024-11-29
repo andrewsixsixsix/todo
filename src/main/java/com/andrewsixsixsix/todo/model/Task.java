@@ -1,11 +1,18 @@
 package com.andrewsixsixsix.todo.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@Entity
 public class Task {
 
+    @Id
+    @GeneratedValue
     private Long id;
 
     private Long userId;

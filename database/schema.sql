@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS "user";
+DROP TABLE IF EXISTS "'user'";
 
 DROP TABLE IF EXISTS "task";
 
@@ -19,7 +19,7 @@ CREATE TYPE "task_priority" AS ENUM (
   'M'
 );
 
-CREATE TABLE "user" (
+CREATE TABLE "'user'" (
   "id" bigint PRIMARY KEY,
   "username" varchar(32) UNIQUE NOT NULL,
   "email" varchar(128) UNIQUE NOT NULL,
@@ -44,4 +44,4 @@ CREATE TABLE "task" (
 
 CREATE INDEX ON "task" ("user_id");
 
-ALTER TABLE "task" ADD FOREIGN KEY ("user_id") REFERENCES "user" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "task" ADD FOREIGN KEY ("user_id") REFERENCES "'user'" ("id") ON DELETE CASCADE ON UPDATE CASCADE;

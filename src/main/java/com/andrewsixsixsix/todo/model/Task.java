@@ -1,7 +1,9 @@
 package com.andrewsixsixsix.todo.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
@@ -14,7 +16,7 @@ import java.util.Objects;
 public class Task {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Long userId;
@@ -25,28 +27,29 @@ public class Task {
 
     private TaskPriority priority;
 
-    private LocalDateTime createdAt;
-
-    private LocalDateTime updateAt;
-
     private String description;
 
     private LocalDate dueDate;
 
+    @Column(insertable = false)
+    private LocalDateTime createdAt;
+
+    private LocalDateTime updatedAt;
+
     public Task() {
     }
 
-    public Task(Long id,Long userId,String title,TaskStatus status,TaskPriority priority, LocalDateTime createdAt,
-                LocalDateTime updateAt, String description, LocalDate dueDate) {
+    public Task(Long id,Long userId,String title,TaskStatus status,TaskPriority priority, String description,
+                LocalDate dueDate, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.userId = userId;
         this.title = title;
         this.status = status;
         this.priority = priority;
-        this.createdAt = createdAt;
-        this.updateAt = updateAt;
         this.description = description;
         this.dueDate = dueDate;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public Long getId() {
@@ -89,22 +92,6 @@ public class Task {
         this.priority = priority;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdateAt() {
-        return updateAt;
-    }
-
-    public void setUpdateAt(LocalDateTime updateAt) {
-        this.updateAt = updateAt;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -121,6 +108,22 @@ public class Task {
         this.dueDate = dueDate;
     }
 
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {
@@ -128,28 +131,28 @@ public class Task {
         }
 
         Task task = (Task) o;
-        return getId().equals(task.getId()) &&
+        return Objects.equals(getId(), task.getId()) &&
                 getUserId().equals(task.getUserId()) &&
                 getTitle().equals(task.getTitle()) &&
                 getStatus() == task.getStatus() &&
                 getPriority() == task.getPriority() &&
-                getCreatedAt().equals(task.getCreatedAt()) &&
-                getUpdateAt().equals(task.getUpdateAt()) &&
                 Objects.equals(getDescription(), task.getDescription()) &&
-                Objects.equals(getDueDate(), task.getDueDate());
+                Objects.equals(getDueDate(), task.getDueDate()) &&
+                Objects.equals(getCreatedAt(), task.getCreatedAt()) &&
+                Objects.equals(getUpdatedAt(), task.getUpdatedAt());
     }
 
     @Override
     public int hashCode() {
-        int result = getId().hashCode();
+        int result = Objects.hashCode(getId());
         result = 31 * result + getUserId().hashCode();
         result = 31 * result + getTitle().hashCode();
         result = 31 * result + getStatus().hashCode();
         result = 31 * result + getPriority().hashCode();
-        result = 31 * result + getCreatedAt().hashCode();
-        result = 31 * result + getUpdateAt().hashCode();
         result = 31 * result + Objects.hashCode(getDescription());
         result = 31 * result + Objects.hashCode(getDueDate());
+        result = 31 * result + Objects.hashCode(getCreatedAt());
+        result = 31 * result + Objects.hashCode(getUpdatedAt());
         return result;
     }
 
@@ -161,10 +164,10 @@ public class Task {
                 ", title='" + title + '\'' +
                 ", status=" + status +
                 ", priority=" + priority +
-                ", createdAt=" + createdAt +
-                ", updateAt=" + updateAt +
                 ", description='" + description + '\'' +
                 ", dueDate=" + dueDate +
+                ", createdAt=" + createdAt +
+                ", updateAt=" + updatedAt +
                 '}';
     }
 }
